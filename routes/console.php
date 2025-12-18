@@ -1,5 +1,7 @@
 <?php
 
-use Illuminate\Foundation\Console\ClosureCommand;
+use Illuminate\Support\Facades\Artisan;
 
-ClosureCommand::make('inspire', fn () => 'Inspiración para Torre Solento')->purpose('Mostrar un mensaje inspirador');
+Artisan::command('inspire', function () {
+    $this->comment('Inspiring quote');
+})->purpose('Display an inspiring quote');
