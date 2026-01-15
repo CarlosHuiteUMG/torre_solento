@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ config('app.name') }}</title>
+    <title><?php echo e(config('app.name')); ?></title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
@@ -80,49 +80,50 @@
                     <div class="shrink-0 flex items-center">
                         <a href="/"
                             class="text-2xl font-bold text-white tracking-tight hover:text-secondary-500 transition duration-300">
-                            {{ config('app.name') }}
+                            <?php echo e(config('app.name')); ?>
+
                         </a>
                     </div>
                     <!-- Desktop Menu -->
                     <div class="hidden sm:ml-8 sm:flex sm:space-x-8">
-                        @auth
-                            <a href="{{ route('dashboard') }}"
+                        <?php if(auth()->guard()->check()): ?>
+                            <a href="<?php echo e(route('dashboard')); ?>"
                                 class="border-transparent text-gray-300 hover:border-secondary-500 hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition duration-150 ease-in-out">
                                 <span class="group-hover:translate-x-1 transition-transform">Inicio</span>
                             </a>
-                            <a href="{{ route('reservations.index') }}"
+                            <a href="<?php echo e(route('reservations.index')); ?>"
                                 class="border-transparent text-gray-300 hover:border-secondary-500 hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition duration-150 ease-in-out">Mis
                                 reservas</a>
-                            <a href="{{ route('profile.edit') }}"
+                            <a href="<?php echo e(route('profile.edit')); ?>"
                                 class="border-transparent text-gray-300 hover:border-secondary-500 hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition duration-150 ease-in-out">Perfil</a>
-                            @role('admin')
-                            <a href="{{ route('admin.users.index') }}"
+                            <?php if (\Illuminate\Support\Facades\Blade::check('role', 'admin')): ?>
+                            <a href="<?php echo e(route('admin.users.index')); ?>"
                                 class="border-transparent text-gray-300 hover:border-secondary-500 hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition duration-150 ease-in-out">Administración</a>
-                            @endrole
-                        @endauth
+                            <?php endif; ?>
+                        <?php endif; ?>
                     </div>
                 </div>
 
                 <!-- Right Side Actions -->
                 <div class="hidden sm:ml-6 sm:flex sm:items-center">
-                    @auth
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
+                    <?php if(auth()->guard()->check()): ?>
+                        <form method="POST" action="<?php echo e(route('logout')); ?>">
+                            <?php echo csrf_field(); ?>
                             <button
                                 class="bg-secondary-600 hover:bg-secondary-500 text-white px-5 py-2 rounded-full text-sm font-medium transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
                                 Salir
                             </button>
                         </form>
-                    @else
+                    <?php else: ?>
                         <div class="flex items-center space-x-4">
-                            <a href="{{ route('login') }}"
+                            <a href="<?php echo e(route('login')); ?>"
                                 class="text-gray-300 hover:text-white font-medium transition px-3 py-2 rounded-md hover:bg-white/10">Ingresar</a>
-                            <a href="{{ route('register') }}"
+                            <a href="<?php echo e(route('register')); ?>"
                                 class="bg-secondary-600 hover:bg-secondary-500 text-white px-5 py-2 rounded-full text-sm font-medium transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
                                 Registrarse
                             </a>
                         </div>
-                    @endauth
+                    <?php endif; ?>
                 </div>
 
                 <!-- Mobile menu button -->
@@ -149,30 +150,30 @@
             x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-150"
             x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2">
             <div class="pt-2 pb-3 space-y-1 px-2">
-                @auth
-                    <a href="{{ route('dashboard') }}"
+                <?php if(auth()->guard()->check()): ?>
+                    <a href="<?php echo e(route('dashboard')); ?>"
                         class="block pl-3 pr-4 py-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-white/10 transition duration-150 ease-in-out">Inicio</a>
-                    <a href="{{ route('reservations.index') }}"
+                    <a href="<?php echo e(route('reservations.index')); ?>"
                         class="block pl-3 pr-4 py-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-white/10 transition duration-150 ease-in-out">Mis
                         reservas</a>
-                    <a href="{{ route('profile.edit') }}"
+                    <a href="<?php echo e(route('profile.edit')); ?>"
                         class="block pl-3 pr-4 py-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-white/10 transition duration-150 ease-in-out">Perfil</a>
-                    @role('admin')
-                    <a href="{{ route('admin.users.index') }}"
+                    <?php if (\Illuminate\Support\Facades\Blade::check('role', 'admin')): ?>
+                    <a href="<?php echo e(route('admin.users.index')); ?>"
                         class="block pl-3 pr-4 py-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-white/10 transition duration-150 ease-in-out">Administración</a>
-                    @endrole
+                    <?php endif; ?>
                     <div class="border-t border-primary-700 my-2"></div>
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
+                    <form method="POST" action="<?php echo e(route('logout')); ?>">
+                        <?php echo csrf_field(); ?>
                         <button
                             class="w-full text-left pl-3 pr-4 py-3 rounded-md text-base font-medium text-red-400 hover:text-red-300 hover:bg-white/10 transition">Salir</button>
                     </form>
-                @else
-                    <a href="{{ route('login') }}"
+                <?php else: ?>
+                    <a href="<?php echo e(route('login')); ?>"
                         class="block pl-3 pr-4 py-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-white/10 transition duration-150 ease-in-out">Ingresar</a>
-                    <a href="{{ route('register') }}"
+                    <a href="<?php echo e(route('register')); ?>"
                         class="block pl-3 pr-4 py-3 rounded-md text-base font-medium text-secondary-400 hover:text-secondary-300 hover:bg-white/10 transition duration-150 ease-in-out">Registrarse</a>
-                @endauth
+                <?php endif; ?>
             </div>
         </div>
     </nav>
@@ -180,7 +181,7 @@
     <main class="flex-grow py-10 w-full">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Alerts -->
-            @if(session('status'))
+            <?php if(session('status')): ?>
                 <div class="bg-emerald-50 border-l-4 border-emerald-500 p-4 mb-6 shadow-md rounded-r-lg" role="alert">
                     <div class="flex">
                         <div class="flex-shrink-0">
@@ -192,13 +193,13 @@
                             </svg>
                         </div>
                         <div class="ml-3">
-                            <p class="text-sm text-emerald-700 font-medium">{{ session('status') }}</p>
+                            <p class="text-sm text-emerald-700 font-medium"><?php echo e(session('status')); ?></p>
                         </div>
                     </div>
                 </div>
-            @endif
+            <?php endif; ?>
 
-            @if($errors->any())
+            <?php if($errors->any()): ?>
                 <div class="bg-rose-50 border-l-4 border-rose-500 p-4 mb-6 shadow-md rounded-r-lg">
                     <div class="flex">
                         <div class="flex-shrink-0">
@@ -212,27 +213,28 @@
                         <div class="ml-3">
                             <h3 class="text-sm font-medium text-rose-800">Se encontraron errores:</h3>
                             <ul class="mt-2 list-disc list-inside text-sm text-rose-700">
-                                @foreach($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
+                                <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <li><?php echo e($error); ?></li>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </ul>
                         </div>
                     </div>
                 </div>
-            @endif
+            <?php endif; ?>
 
-            {{ $slot ?? '' }}
-            @yield('content')
+            <?php echo e($slot ?? ''); ?>
+
+            <?php echo $__env->yieldContent('content'); ?>
         </div>
     </main>
 
     <footer class="bg-white border-t border-slate-200 mt-auto">
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
             <p class="text-center text-sm text-slate-500">
-                &copy; {{ date('Y') }} {{ config('app.name') }}. Todos los derechos reservados.
+                &copy; <?php echo e(date('Y')); ?> <?php echo e(config('app.name')); ?>. Todos los derechos reservados.
             </p>
         </div>
     </footer>
 </body>
 
-</html>
+</html><?php /**PATH C:\Users\chuite\Documents\GitHub\torre_solento\resources\views/layouts/app.blade.php ENDPATH**/ ?>

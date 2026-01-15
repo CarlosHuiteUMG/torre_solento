@@ -10,7 +10,9 @@ class ProfileController extends Controller
 {
     public function edit()
     {
-        $profile = ResidentProfile::firstOrCreate(['user_id' => Auth::id()]);
+        // Don't create an empty record if it doesn't exist to avoid NOT NULL violations.
+        // Just return a new instance or null. The view should handle empty values.
+        $profile = ResidentProfile::where('user_id', Auth::id())->first() ?? new ResidentProfile();
         return view('user.profile', compact('profile'));
     }
 

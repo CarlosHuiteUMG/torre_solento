@@ -1,6 +1,6 @@
-@extends('layouts.app')
 
-@section('content')
+
+<?php $__env->startSection('content'); ?>
     <div class="max-w-4xl mx-auto">
         <div class="bg-white p-8 rounded-xl shadow-lg border border-slate-100">
             <div class="flex items-center justify-between mb-8 border-b border-gray-100 pb-4">
@@ -16,9 +16,9 @@
                 </div>
             </div>
 
-            <form method="POST" action="{{ route('profile.update') }}" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                @csrf
-                @method('PUT')
+            <form method="POST" action="<?php echo e(route('profile.update')); ?>" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <?php echo csrf_field(); ?>
+                <?php echo method_field('PUT'); ?>
 
                 <!-- Section Header -->
                 <div class="md:col-span-2">
@@ -29,17 +29,17 @@
 
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Nombre completo</label>
-                    <input type="text" name="full_name" value="{{ old('full_name', $profile->full_name) }}"
+                    <input type="text" name="full_name" value="<?php echo e(old('full_name', $profile->full_name)); ?>"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary-500 focus:border-secondary-500 transition-shadow">
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">DPI</label>
-                    <input type="text" name="dpi" value="{{ old('dpi', $profile->dpi) }}"
+                    <input type="text" name="dpi" value="<?php echo e(old('dpi', $profile->dpi)); ?>"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary-500 focus:border-secondary-500 transition-shadow">
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Teléfono</label>
-                    <input type="text" name="phone" value="{{ old('phone', $profile->phone) }}"
+                    <input type="text" name="phone" value="<?php echo e(old('phone', $profile->phone)); ?>"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary-500 focus:border-secondary-500 transition-shadow">
                 </div>
 
@@ -53,12 +53,12 @@
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Número de apartamento</label>
                     <input type="text" name="apartment_number"
-                        value="{{ old('apartment_number', $profile->apartment_number) }}"
+                        value="<?php echo e(old('apartment_number', $profile->apartment_number)); ?>"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary-500 focus:border-secondary-500 transition-shadow">
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Nivel o piso</label>
-                    <input type="text" name="floor" value="{{ old('floor', $profile->floor) }}"
+                    <input type="text" name="floor" value="<?php echo e(old('floor', $profile->floor)); ?>"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary-500 focus:border-secondary-500 transition-shadow">
                 </div>
                 <div>
@@ -66,9 +66,9 @@
                     <div class="relative">
                         <select name="resident_type"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary-500 focus:border-secondary-500 transition-shadow appearance-none bg-white">
-                            <option value="propietario" @selected($profile->resident_type === 'propietario')>Propietario
+                            <option value="propietario" <?php if($profile->resident_type === 'propietario'): echo 'selected'; endif; ?>>Propietario
                             </option>
-                            <option value="inquilino" @selected($profile->resident_type === 'inquilino')>Inquilino</option>
+                            <option value="inquilino" <?php if($profile->resident_type === 'inquilino'): echo 'selected'; endif; ?>>Inquilino</option>
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -87,4 +87,5 @@
             </form>
         </div>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\chuite\Documents\GitHub\torre_solento\resources\views/user/profile.blade.php ENDPATH**/ ?>

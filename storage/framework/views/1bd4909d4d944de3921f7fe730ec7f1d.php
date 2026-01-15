@@ -1,6 +1,6 @@
-@extends('layouts.app')
 
-@section('content')
+
+<?php $__env->startSection('content'); ?>
     <div class="min-h-[calc(100vh-16rem)] flex items-center justify-center">
         <div class="w-full max-w-md bg-white p-8 rounded-xl shadow-lg border border-slate-100 relative overflow-hidden">
             <!-- Decorative top bar -->
@@ -11,8 +11,8 @@
                 <p class="text-gray-500 mt-2 text-sm">Ingresa tus credenciales para acceder</p>
             </div>
 
-            <form method="POST" action="{{ route('login') }}" class="space-y-6">
-                @csrf
+            <form method="POST" action="<?php echo e(route('login')); ?>" class="space-y-6">
+                <?php echo csrf_field(); ?>
                 <div class="space-y-2">
                     <label class="block text-sm font-semibold text-gray-700">Correo Electrónico</label>
                     <div class="relative">
@@ -61,9 +61,10 @@
             </form>
 
             <div class="mt-6 text-center text-sm text-gray-500">
-                ¿No tienes cuenta? <a href="{{ route('register') }}"
+                ¿No tienes cuenta? <a href="<?php echo e(route('register')); ?>"
                     class="font-medium text-secondary-600 hover:text-secondary-500">Regístrate aquí</a>
             </div>
         </div>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\chuite\Documents\GitHub\torre_solento\resources\views/auth/login.blade.php ENDPATH**/ ?>

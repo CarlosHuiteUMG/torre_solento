@@ -1,12 +1,12 @@
-@extends('layouts.app')
 
-@section('content')
 
-    @guest
+<?php $__env->startSection('content'); ?>
+
+    <?php if(auth()->guard()->guest()): ?>
         <!-- Carousel Section for Guests -->
         <div class="relative w-full max-w-6xl mx-auto mt-4 md:mt-8 bg-white rounded-2xl shadow-xl overflow-hidden" x-data="{ 
                                                     activeSlide: 0, 
-                                                    slides: {{ json_encode($images) }}, 
+                                                    slides: <?php echo e(json_encode($images)); ?>, 
                                                     autoSlideInterval: null,
                                                     startAutoSlide() { 
                                                         this.autoSlideInterval = setInterval(() => { 
@@ -70,11 +70,11 @@
                     <p class="text-lg md:text-xl text-gray-200 mb-8 drop-shadow-md">Exclusividad, seguridad y confort en cada
                         espacio.</p>
                     <div class="flex flex-col md:flex-row gap-4 justify-center md:justify-start">
-                        <a href="{{ route('login') }}"
+                        <a href="<?php echo e(route('login')); ?>"
                             class="bg-secondary-600 hover:bg-secondary-500 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition transform hover:-translate-y-1 border border-transparent">
                             Ingresar al Portal
                         </a>
-                        <a href="{{ route('register') }}"
+                        <a href="<?php echo e(route('register')); ?>"
                             class="bg-transparent hover:bg-white/10 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition transform hover:-translate-y-1 border border-white">
                             Registrarse
                         </a>
@@ -82,9 +82,9 @@
                 </div>
             </div>
         </div>
-    @endguest
+    <?php endif; ?>
 
-    @auth
+    <?php if(auth()->guard()->check()): ?>
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Calendar Section -->
             <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-sm border border-slate-100 h-fit">
@@ -111,16 +111,16 @@
                     Nueva Reserva
                 </h3>
 
-                <form action="{{ route('reservations.store') }}" method="POST" class="space-y-5">
-                    @csrf
+                <form action="<?php echo e(route('reservations.store')); ?>" method="POST" class="space-y-5">
+                    <?php echo csrf_field(); ?>
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1">Área Común</label>
                         <div class="relative">
                             <select name="area_id"
                                 class="w-full pl-3 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary-500 focus:border-secondary-500 appearance-none bg-white transition-shadow cursor-pointer">
-                                @foreach($areas as $area)
-                                    <option value="{{ $area->id }}">{{ $area->name }}</option>
-                                @endforeach
+                                <?php $__currentLoopData = $areas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $area): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <option value="<?php echo e($area->id); ?>"><?php echo e($area->name); ?></option>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </select>
                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -263,18 +263,18 @@
                         day: 'Día'
                     },
                     events: [
-                        @foreach($reservations as $reservation)
+                        <?php $__currentLoopData = $reservations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $reservation): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                             {
-                                title: '{{ $reservation->area->name }}',
-                                start: '{{ $reservation->start_time }}',
-                                end: '{{ $reservation->end_time }}',
-                                color: '{{ $reservation->status == "confirmed" ? "#10b981" : ($reservation->status == "cancelled" ? "#ef4444" : "#f59e0b") }}', // Green for confirmed, Red for cancelled, Orange for pending
+                                title: '<?php echo e($reservation->area->name); ?>',
+                                start: '<?php echo e($reservation->start_time); ?>',
+                                end: '<?php echo e($reservation->end_time); ?>',
+                                color: '<?php echo e($reservation->status == "confirmed" ? "#10b981" : ($reservation->status == "cancelled" ? "#ef4444" : "#f59e0b")); ?>', // Green for confirmed, Red for cancelled, Orange for pending
                                 extendedProps: {
-                                    user: '{{ $reservation->user->name }}',
-                                    status: '{{ $reservation->status }}'
+                                    user: '<?php echo e($reservation->user->name); ?>',
+                                    status: '<?php echo e($reservation->status); ?>'
                                 }
                             },
-                        @endforeach                    ],
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>                    ],
                     eventDidMount: function (info) {
                         // Add tooltip or custom element if needed
                         info.el.title = info.event.extendedProps.user + ' (' + info.event.extendedProps.status + ')';
@@ -283,6 +283,7 @@
                 calendar.render();
             });
         </script>
-    @endauth
+    <?php endif; ?>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\chuite\Documents\GitHub\torre_solento\resources\views/dashboard.blade.php ENDPATH**/ ?>

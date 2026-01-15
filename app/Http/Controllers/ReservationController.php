@@ -23,6 +23,13 @@ class ReservationController extends Controller
 
     public function store(Request $request)
     {
+        if ($request->has(['reservation_date', 'time_start', 'time_end'])) {
+            $request->merge([
+                'start_time' => $request->reservation_date . ' ' . $request->time_start,
+                'end_time' => $request->reservation_date . ' ' . $request->time_end,
+            ]);
+        }
+
         $validated = $request->validate([
             'area_id' => ['required', 'exists:areas,id'],
             'start_time' => ['required', 'date', 'after:now'],
