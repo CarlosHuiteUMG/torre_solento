@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
-@section('content')
-
+@section('hero')
     @guest
         <!-- Carousel Section for Guests -->
         <div class="relative w-full h-[calc(100vh-65px)] overflow-hidden" x-data="{ 
@@ -40,41 +39,42 @@
 
             <!-- Navigation Buttons -->
             <button @click="activeSlide = activeSlide === 0 ? slides.length - 1 : activeSlide - 1"
-                class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/10 hover:bg-white/30 text-white p-3 rounded-full backdrop-blur-sm transition hidden md:block">
+                class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/10 hover:bg-white/30 text-white p-3 rounded-full backdrop-blur-sm transition hidden md:block z-20">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                 </svg>
             </button>
             <button @click="activeSlide = (activeSlide + 1) % slides.length"
-                class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/10 hover:bg-white/30 text-white p-3 rounded-full backdrop-blur-sm transition hidden md:block">
+                class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/10 hover:bg-white/30 text-white p-3 rounded-full backdrop-blur-sm transition hidden md:block z-20">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                 </svg>
             </button>
 
             <!-- Indicators -->
-            <div class="absolute bottom-6 left-0 right-0 flex justify-center space-x-2 z-10">
+            <div class="absolute bottom-6 left-0 right-0 flex justify-center space-x-2 z-20">
                 <template x-for="(slide, index) in slides" :key="index">
                     <button @click="activeSlide = index"
                         :class="{'bg-secondary-500 w-8': activeSlide === index, 'bg-white/50 w-2': activeSlide !== index}"
-                        class="h-2 rounded-full transition-all duration-300"></button>
+                        class="h-2 rounded-full transition-all duration-300 shadow-sm"></button>
                 </template>
             </div>
 
             <!-- Welcome Text Overlay -->
-            <div class="absolute bottom-0 left-0 right-0 p-8 md:p-16 text-white text-center md:text-left">
-                <div class="max-w-3xl">
-                    <h1 class="text-3xl md:text-5xl font-bold mb-4 tracking-tight shadow-black drop-shadow-lg">Bienvenidos a
-                        Torre Solento</h1>
-                    <p class="text-lg md:text-xl text-gray-200 mb-8 drop-shadow-md">Exclusividad, seguridad y confort en cada
-                        espacio.</p>
+            <div
+                class="absolute bottom-0 left-0 right-0 p-8 md:p-16 text-white text-center md:text-left z-20 bg-gradient-to-t from-black/60 to-transparent">
+                <div class="max-w-7xl mx-auto">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-4 tracking-tight drop-shadow-xl">Bienvenidos a Torre Solento
+                    </h1>
+                    <p class="text-xl md:text-2xl text-gray-100 mb-8 drop-shadow-lg max-w-2xl">Exclusividad, seguridad y confort
+                        en cada espacio.</p>
                     <div class="flex flex-col md:flex-row gap-4 justify-center md:justify-start">
                         <a href="{{ route('login') }}"
-                            class="bg-secondary-600 hover:bg-secondary-500 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition transform hover:-translate-y-1 border border-transparent">
+                            class="bg-secondary-600 hover:bg-secondary-500 text-white font-semibold py-4 px-10 rounded-full shadow-xl transition transform hover:-translate-y-1 text-lg">
                             Ingresar al Portal
                         </a>
                         <a href="{{ route('register') }}"
-                            class="bg-transparent hover:bg-white/10 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition transform hover:-translate-y-1 border border-white">
+                            class="bg-white/20 hover:bg-white/30 text-white font-semibold py-4 px-10 rounded-full shadow-xl transition transform hover:-translate-y-1 backdrop-blur-sm text-lg border border-white/40">
                             Registrarse
                         </a>
                     </div>
@@ -82,6 +82,9 @@
             </div>
         </div>
     @endguest
+@endsection
+
+@section('content')
 
     @auth
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -263,7 +266,7 @@
                     },
                     events: [
                         @foreach($reservations as $reservation)
-                                                                                        {
+                                                                                                    {
                                 title: '{{ $reservation->area->name }}',
                                 start: '{{ $reservation->start_time }}',
                                 end: '{{ $reservation->end_time }}',
