@@ -4,28 +4,27 @@
 
     <?php if(auth()->guard()->guest()): ?>
         <!-- Carousel Section for Guests -->
-        <div class="relative w-full max-w-6xl mx-auto mt-4 md:mt-8 bg-white rounded-2xl shadow-xl overflow-hidden" x-data="{ 
-                                                    activeSlide: 0, 
-                                                    slides: <?php echo e(json_encode($images)); ?>, 
-                                                    autoSlideInterval: null,
-                                                    startAutoSlide() { 
-                                                        this.autoSlideInterval = setInterval(() => { 
-                                                            this.activeSlide = (this.activeSlide + 1) % this.slides.length 
-                                                        }, 5000); 
-                                                    },
-                                                    stopAutoSlide() {
-                                                        clearInterval(this.autoSlideInterval);
-                                                    }
-                                                 }" x-init="startAutoSlide()" @mouseenter="stopAutoSlide()"
-            @mouseleave="startAutoSlide()">
+        <div class="relative w-full h-[calc(100vh-65px)] overflow-hidden" x-data="{ 
+                    activeSlide: 0, 
+                    slides: <?php echo e(json_encode($images)); ?>, 
+                    autoSlideInterval: null,
+                    startAutoSlide() { 
+                        this.autoSlideInterval = setInterval(() => { 
+                            this.activeSlide = (this.activeSlide + 1) % this.slides.length 
+                        }, 4000); 
+                    },
+                    stopAutoSlide() {
+                        clearInterval(this.autoSlideInterval);
+                    }
+                 }" x-init="startAutoSlide()" @mouseenter="stopAutoSlide()" @mouseleave="startAutoSlide()">
 
             <!-- Slides -->
-            <div class="relative h-[400px] md:h-[600px] w-full bg-slate-200">
+            <div class="relative w-full h-full bg-slate-900">
                 <template x-for="(slide, index) in slides" :key="index">
                     <div x-show="activeSlide === index" x-transition:enter="transition ease-out duration-1000"
                         x-transition:enter-start="opacity-0 transform scale-105"
                         x-transition:enter-end="opacity-100 transform scale-100"
-                        x-transition:leave="transition ease-in duration-500" x-transition:leave-start="opacity-100"
+                        x-transition:leave="transition ease-in duration-1000" x-transition:leave-start="opacity-100"
                         x-transition:leave-end="opacity-0" class="absolute inset-0 w-full h-full">
                         <img :src="slide" alt="Torre Solento" class="w-full h-full object-cover">
                         <!-- Overlay Gradient -->
@@ -264,7 +263,7 @@
                     },
                     events: [
                         <?php $__currentLoopData = $reservations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $reservation): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                                            {
+                                                                                        {
                                 title: '<?php echo e($reservation->area->name); ?>',
                                 start: '<?php echo e($reservation->start_time); ?>',
                                 end: '<?php echo e($reservation->end_time); ?>',

@@ -178,6 +178,8 @@
         </div>
     </nav>
 
+    <?php echo $__env->yieldContent('hero'); ?>
+
     <main class="flex-grow py-10 w-full">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Alerts -->
