@@ -32,9 +32,19 @@ class ReservationController extends Controller
 
         $validated = $request->validate([
             'area_id' => ['required', 'exists:areas,id'],
-            'start_time' => ['required', 'date', 'after:now'],
+            'start_time' => ['required', 'date'],
             'end_time' => ['required', 'date', 'after:start_time'],
             'attendees' => ['nullable', 'integer', 'min:1']
+        ], [
+            'area_id.required' => 'El área es obligatoria.',
+            'area_id.exists' => 'El área seleccionada no es válida.',
+            'start_time.required' => 'La fecha y hora de inicio son obligatorias.',
+            'start_time.date' => 'La fecha de inicio no es válida.',
+            'end_time.required' => 'La fecha y hora de fin son obligatorias.',
+            'end_time.date' => 'La fecha de fin no es válida.',
+            'end_time.after' => 'La hora de fin debe ser posterior a la hora de inicio.',
+            'attendees.integer' => 'El número de asistentes debe ser un número entero.',
+            'attendees.min' => 'Debe haber al menos un asistente.',
         ]);
 
         $area = Area::findOrFail($validated['area_id']);

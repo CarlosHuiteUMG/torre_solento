@@ -28,9 +28,10 @@ class DashboardController extends Controller
         // Only fetch reservations if user is logged in
         $reservations = collect();
         if ($user) {
+            // Show all reservations for the calendar so users can see availability
+            // Filter by date range (e.g., from start of current month) can be added later if needed
             $reservations = Reservation::with('area', 'user')
-                ->upcoming()
-                ->forUserOrAdmin($user)
+                ->where('created_at', '>=', now()->subMonths(6)) // Optional: optimizations
                 ->get();
         }
 
